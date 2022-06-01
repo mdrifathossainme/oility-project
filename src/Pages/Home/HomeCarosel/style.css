@@ -1,0 +1,22 @@
+.homeCarusel {
+  width: 100%;
+  height: 90vh;
+}
+
+.swiper-slide {
+  font-size: 18px;
+  
+
+  
+}
+
+@media screen and (max-width:900px){
+  .homeCarusel {
+  height: 30vh;
+}
+}
+@media screen and (max-width:600px){
+  .homeCarusel {
+  height: 40vh;
+}
+}
