@@ -9,7 +9,8 @@ import Login from './Pages/Login/Login';
 import Signup from './Pages/Signup/Signup';
 import NotFound from './Pages/NotFound/NotFound';
 import Cart from './Pages/Cart/Cart';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path='/cart' element={<Cart/>}></Route>
           <Route path='*' element={<NotFound/>}></Route>
         </Routes>
+         <ToastContainer />
       </NavMenu>
       
     </div>

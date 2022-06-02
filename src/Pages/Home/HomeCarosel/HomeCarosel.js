@@ -2,7 +2,7 @@ import React from 'react';
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-fade";
-import { EffectFade, Pagination} from "swiper";
+import { EffectFade} from "swiper";
 import './style.css'
 import { Link } from 'react-router-dom';
 const HomeCarosel = () => {
@@ -16,8 +16,7 @@ const HomeCarosel = () => {
         pagination={{
           clickable: true,
         }}
-        navigation={true}
-        modules={[Pagination,EffectFade ]}
+        modules={[EffectFade ]}
         loopFillGroupWithBlank={true}
         className="homeCarusel"
       >
@@ -34,7 +33,7 @@ const HomeCarosel = () => {
                       
                         <p className='lg:mt-[120px] lg:mb-6 lg:text-2xl'>50% off in all product</p>
                         <h1 className='lg:text-7xl text-3xl mb-4'>Man Fashion</h1>
-                        <button className='btn btn-primary lg:w-36 rounded-none'>Shop Now</button>
+                        <button className='btn btn-primary lg:w-36 rounded-none hover:bg-transparent hover:text-primary '>Shop Now</button>
                
                   </div>
         </SwiperSlide>
@@ -51,7 +50,7 @@ const HomeCarosel = () => {
                       
                         <p className='lg:mt-[120px] lg:mb-6 lg:text-2xl'>40% off in all product</p>
                         <h1 className='lg:text-7xl text-3xl mb-4'>Woman Fashion</h1>
-                        <button className='btn btn-primary lg:w-36 rounded-none'>Shop Now</button>
+                        <button className='btn btn-primary lg:w-36 rounded-none hover:bg-transparent hover:text-primary'>Shop Now</button>
                
                   </div>
         </SwiperSlide>
@@ -68,7 +67,7 @@ const HomeCarosel = () => {
                       
                         <p className='lg:mt-[120px] lg:mb-6 lg:text-2xl'>Taking your Viewing Experience to Next Level</p>
                         <h1 className='lg:text-7xl text-3xl mb-4'>Summer Sale</h1>
-                        <button className='btn btn-primary lg:w-36 rounded-none'>Shop Now</button>
+                        <button className='btn btn-primary lg:w-36 rounded-none hover:bg-transparent hover:text-primary'>Shop Now</button>
                
                   </div>
         </SwiperSlide>
