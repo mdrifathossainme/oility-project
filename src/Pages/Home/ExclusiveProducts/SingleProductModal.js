@@ -3,10 +3,18 @@ import { Icon } from 'react-icons-kit'
 import { plus } from 'react-icons-kit/fa/plus'
 import {minus} from 'react-icons-kit/fa/minus'
 import { toast } from 'react-toastify';
+import RequireAuth from "../../../Components/RequierAuth/RequierAuth"
+import { useAuthState } from 'react-firebase-hooks/auth';
+import auth from '../../../firebase.init';
+import Loading from '../../../Components/Loading/Loading';
 const SingleProductModal = ({ productModal,setProductModal }) => {
    
-    const [orderQunatity ,setOrderQunatiry]=useState(1)
+    const [orderQunatity, setOrderQunatiry] = useState(1)
+    const [user,loading]=useAuthState(auth)
 
+    if (loading) {
+        return <Loading/>
+    }
 
    
     const handleClose = () => {
@@ -24,11 +32,11 @@ const SingleProductModal = ({ productModal,setProductModal }) => {
     }
 
     const order = {
-        name:productModal.name,
+        name: productModal.name,
+        email:user.email,
         img:productModal.img,
         category:productModal.category,
         seller:productModal.seller,
-        stock:productModal.stock,
         shipping:productModal.shipping,
         orderQunatity: orderQunatity
         
@@ -60,10 +68,19 @@ const SingleProductModal = ({ productModal,setProductModal }) => {
             }
         
           setProductModal(null)
-    })
-
-
-
+        })
+        
+        const stock = productModal.stock - orderQunatity
+        console.log(stock)
+        
+        const upUrl = `http://localhost:5000/displayproducts/${productModal._id}`
+        fetch(upUrl, {
+            method: "PUT",
+            headers: {
+                "content-type":"application/json"
+            },
+            body:JSON.stringify({stock})
+        })
 
     }
 
@@ -76,9 +93,10 @@ const SingleProductModal = ({ productModal,setProductModal }) => {
     return (
       
     
-        <>
-            <input type="checkbox" id="singleProductModal" class="modal-toggle" />
-                        <div class="modal ">
+        <>  
+             <RequireAuth>
+                 <input type="checkbox" id="singleProductModal" class="modal-toggle" />
+              <div class="modal ">
                     <div class="modal-box w-8/12 max-w-full max-h-[90%] ">
                     <label onClick={handleClose} for="singleProductModal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                     
@@ -113,15 +131,21 @@ const SingleProductModal = ({ productModal,setProductModal }) => {
                                 <input value={orderQunatity} onChange={handleValue} type="number" className={`border-2 w-28  p-1 ${productModal.stock <orderQunatity? "border-red-500":"border-gray-300 "}  focus:outline-none `} min={1} />
                                   <Icon onClick={handleOrderQunatityPlus} className='px-2 cursor-pointer ' icon={plus} /></span>
                          
-                                </div>
-                                <div className={`${productModal.stock < orderQunatity? "block":"hidden"}`} >
+                                    </div>
+                                    
+                                    {
+                                        productModal.stock === 0 ?  <h6 className='text-red-500 font-semibold'> Stock Out</h6> : <>
+                                        <div className={`${productModal.stock < orderQunatity? "block":"hidden"}`} >
                                     <h6 className='text-red-500 font-semibold'> Product Quantity Not Availavle</h6>
                              </div>
+                                        </>
+                                    }
+                                
                                
                                 
                             </div>
-
-                            <button disabled={productModal.stock < orderQunatity} onClick={handOrder} className='btn btn-primary  rounded-none text-white mt-4 hover:bg-transparent hover:text-primary '>Add To Cart</button>
+                            <button disabled={productModal.stock < orderQunatity|| productModal.stock===0} onClick={handOrder} className='btn btn-primary  rounded-none text-white mt-4 hover:bg-transparent hover:text-primary '>Add To Cart</button>
+                           
                        
                         </div>
 
@@ -129,7 +153,10 @@ const SingleProductModal = ({ productModal,setProductModal }) => {
                                  
                  
                 </div>
-                </div>
+                </div>             
+                
+             </RequireAuth>
+            
         </>
     );
 };

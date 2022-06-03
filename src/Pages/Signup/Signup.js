@@ -55,9 +55,9 @@ const Signup = () => {
 
   return (
     <div className="lg:px-16 px-4 ">
-      <h1 className="text-3xl lg:py-12 py-8">Register</h1>
+      <h1 className="text-3xl lg:py-12 py-8 hidden lg:block">Register</h1>
       <div
-        className=" rounded-sm w-[50%] mb-12 lg:px-12 py-8 mx-auto"
+        className=" mt-12 lg:mt-0 rounded-sm lg:w-[50%] w-[95%] px-4 mb-12 lg:px-12 py-8 mx-auto"
         style={{ boxShadow: "1px 1px 10px 5px rgba(128, 128, 128, 0.304) " }}
       >
         <h1 className="text-3xl pb-8">Create An Account</h1>
@@ -77,7 +77,7 @@ const Signup = () => {
                   message: "Number Don't Accepted ",
                 },
               })}
-              className="border-2 focus:outline-none w-[460px] h-[50px] px-4 "
+              className="border-2 focus:outline-none lg:w-[460px] h-[50px] px-4 "
               placeholder="Your Name"
               type="text"
               id=""
@@ -111,7 +111,7 @@ const Signup = () => {
                   message: "Email is not valid",
                 },
               })}
-              className="border-2 focus:outline-none w-[460px] h-[50px] px-4 "
+              className="border-2 focus:outline-none lg:w-[460px] h-[50px] px-4 "
               placeholder="Your Email"
               type="email"
             />
@@ -144,7 +144,7 @@ const Signup = () => {
                            
                     
                          
-              className="border-2 focus:outline-none w-[460px] h-[50px] px-4 "
+              className="border-2 focus:outline-none lg:w-[460px] h-[50px] px-4 "
               placeholder="Your Password"
               type="password"
             />
@@ -172,7 +172,7 @@ const Signup = () => {
               })}
                           
             
-              className="border-2 focus:outline-none w-[460px] h-[50px] px-4 "
+              className="border-2 focus:outline-none lg:w-[460px] h-[50px] px-4 "
               placeholder="Confirm Password"
               type="password"
             />
