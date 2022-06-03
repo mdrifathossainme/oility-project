@@ -5,7 +5,16 @@ import { ic_shopping_cart } from "react-icons-kit/md/ic_shopping_cart";
 import { userO } from 'react-icons-kit/fa/userO'
 import {heartO} from 'react-icons-kit/fa/heartO'
 import { Link } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "../../firebase.init";
+import { signOut } from "firebase/auth";
 const NavMenu = ({ children }) => {
+const[user]= useAuthState(auth)
+  
+  console.log(user)
+  const logout = () => {
+    signOut(auth);
+  }
 
   const menuItem = (
     <>
@@ -23,16 +32,23 @@ const NavMenu = ({ children }) => {
         <CustomLink to="/blog">Blog</CustomLink>
       </li>
       <li className="hover:text-primary-focus ">
-        <CustomLink to="/login">Login</CustomLink>
-      </li>
-      <li className="hover:text-primary-focus ">
         <CustomLink to="/Signup">Signup</CustomLink>
       </li>
-          <li className="hover:text-primary-focus lg:hidden  " >
-              <span className=""><Icon  icon={userO} size={20} /> Login</span>
+      <li className="hover:text-primary-focus lg:hidden  " >
+
+        {user? <CustomLink to="/login"> <span className=""><Icon icon={userO} size={20} /> Login</span></CustomLink> : <>
+        
+        <div class="dropdown dropdown-hover">
+            <label tabindex="0" class=" m-1">{ user?.displayName}</label>
+        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                           <li><button onClick={logout}>Logout</button></li>
+             
+            </ul>
+          </div>
+        </>}
                
           </li>
-          <li className="hover:text-primary-focus lg:hidden " >
+          <li className="hover:text-primary-focus  lg:hidden " >
                 <span className=" "><Icon icon={heartO} size={20} /> Wishlist</span>
           </li>
     </>
@@ -69,8 +85,31 @@ const NavMenu = ({ children }) => {
                   <ul class="menu menu-horizontal">{menuItem}</ul>
                 </div>
                 <div className="flex" >
-                <span className=" hidden lg:block mx-4 cursor-pointer hover:text-primary-focus  
-                 "><Icon icon={userO} size={20} /> Login</span>
+             
+                  <span className=" hidden lg:block mx-4 cursor-pointer hover:text-primary-focus">
+
+                    {user ? <>
+                    
+                    <div class="dropdown dropdown-hover">
+            <label tabindex="0" class=" m-1">rifat</label>
+        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                           <li><button onClick={logout}>Logout</button></li>
+             
+            </ul>
+                      </div>
+                    </> : <>
+        
+        
+                      
+                      <CustomLink to="/login"> <span className=""><Icon icon={userO} size={20} /> Login</span></CustomLink>
+        </>}
+
+                      
+                 </span>
+                  
+                  
+                  
+
                 <span className="mx-4 hidden lg:block cursor-pointer hover:text-primary-focus  "><Icon icon={heartO} size={20} /> Wishlist</span>
                   
                   <Link to="cart"> <label for="cart-menu" class=""><span className="mx-4 cursor-pointer hover:text-primary-focus  "><Icon icon={ic_shopping_cart} size={25} /></span></label></Link>

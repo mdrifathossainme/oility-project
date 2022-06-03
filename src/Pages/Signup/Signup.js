@@ -3,21 +3,54 @@ import { useForm } from "react-hook-form";
 import { Icon } from "react-icons-kit";
 import { facebook } from "react-icons-kit/fa/facebook";
 import { google } from "react-icons-kit/fa/google";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import LoadingNE from "../../Components/Loading/LoadingNE"
+import { useCreateUserWithEmailAndPassword, useSignInWithFacebook, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
+import auth from '../../firebase.init'
+
+
 const Signup = () => {
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    reset,
+    const {
+        register,
+        formState: { errors },
+        handleSubmit,
+        reset,
     } = useForm();
 
+    const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+    
+    const [createUserWithEmailAndPassword, emailPasswordUser, emailPasswordLoading, emailPasswordError,] = useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
+    const [updateProfile, updating, uperror] = useUpdateProfile(auth);
+    const [signInWithFacebook, fbuser, fbloading, fberror] = useSignInWithFacebook(auth);
+
+    const [customerror, setCustError] = useState('')
+
+    const navigate=useNavigate()
+
+    if (loading||emailPasswordLoading||fbuser) {
+    return <LoadingNE/>
+    }
+    
+    if (user||emailPasswordUser||fbuser) {
+        navigate('/')
+    }
 
 
+    const onSubmit = async (data) => {
 
-  const onSubmit = (data) => {
-      
-    reset();
+        if (data.password !== data.confirmpassword) {
+        setCustError("Pssword Don't Match")
+        }
+        else {
+            setCustError("")
+            
+            await createUserWithEmailAndPassword(data.email, data.password)
+            await updateProfile({displayName:data.displayName})
+
+           reset(); 
+        }
+    
+    
   };
 
   return (
@@ -32,7 +65,7 @@ const Signup = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <div className="form-control ">
             <input
-              {...register("displayNname", {
+              {...register("displayName", {
                 required: true,
                 maxLength: {
                   value: 20,
@@ -50,19 +83,19 @@ const Signup = () => {
               id=""
             />
             <label class="label p-0">
-              {errors.displayNname?.type === "required" && (
+              {errors.displayName?.type === "required" && (
                 <span className="text-red-500 text-[12px] font-bold">
                   <p>Name Required *</p>
                 </span>
               )}
-              {errors.displayNname?.type === "maxLength" && (
+              {errors.displayName?.type === "maxLength" && (
                 <span className="text-red-500 text-[12px] font-bold">
-                  <p>{errors.displayNname?.message} *</p>
+                  <p>{errors.displayName?.message} *</p>
                 </span>
               )}
-              {errors.displayNname?.type === "pattern" && (
+              {errors.displayName?.type === "pattern" && (
                 <span className="text-red-500 text-[12px] font-bold">
-                  <p>{errors.displayNname?.message} *</p>
+                  <p>{errors.displayName?.message} *</p>
                 </span>
               )}
             </label>
@@ -100,8 +133,7 @@ const Signup = () => {
           </div>
           <div className="form-control ">
                       <input
-                      
-          
+      
               {...register("password", {
                 required: true,
                 minLength: {
@@ -109,7 +141,8 @@ const Signup = () => {
                   message: "Minimun Use 8 Charecter",
                 },
               })}
-                          
+                           
+                    
                          
               className="border-2 focus:outline-none w-[460px] h-[50px] px-4 "
               placeholder="Your Password"
@@ -132,12 +165,13 @@ const Signup = () => {
             </label>
           </div>
           <div className="form-control ">
-            <input
+             <input
+                   
               {...register("confirmpassword", {
                 required: true,
               })}
                           
-       
+            
               className="border-2 focus:outline-none w-[460px] h-[50px] px-4 "
               placeholder="Confirm Password"
               type="password"
@@ -150,10 +184,10 @@ const Signup = () => {
                     Confirm Password required *
                   </p>
                 )}
-                {/* {customerror?<p className="text-red-500 text-[12px] font-bold">
+                {customerror?<p className="text-red-500 text-[12px] font-bold">
                     {customerror}
                   </p> :""
-                } */}
+                }
               </span>
             </label>
           </div>
@@ -179,12 +213,12 @@ const Signup = () => {
         </form>
         <div class="divider">OR</div>
         <div className="flex justify-center gap-4">
-          <button className=" btn  hover:bg-[#3b5998] bg-[#3b5998] w-[150px] text-white rounded-md">
+          <button onClick={()=>signInWithFacebook()} className=" btn  hover:bg-[#3b5998] bg-[#3b5998] w-[150px] text-white rounded-md">
             <Icon className="pr-2" icon={facebook} /> Facebook
           </button>
-          <button className=" w-[150px] btn bg-[#d85040] text-white hover:bg-[#d85040]">
-            {" "}
-            <Icon className="pr-2 " icon={google} /> Google{" "}
+          <button onClick={()=>signInWithGoogle()} className=" w-[150px] btn bg-[#d85040] text-white hover:bg-[#d85040]">
+           
+            <Icon className="pr-2 " icon={google} /> Google
           </button>
         </div>
         <p className="text-center my-4">

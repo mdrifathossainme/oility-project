@@ -12,6 +12,7 @@ import Cart from './Pages/Cart/Cart';
 import ContactUs from './Pages/ContactUs/Contactus';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import LoadingNE from './Components/Loading/LoadingNE';
 
 function App() {
   return (
