@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import UseProduct from '../../../hooks/UseProduct';
 import { Icon } from 'react-icons-kit'
 import { ic_add_shopping_cart } from 'react-icons-kit/md/ic_add_shopping_cart'
@@ -6,15 +6,19 @@ import { heartO } from 'react-icons-kit/fa/heartO'
 import { searchPlus } from 'react-icons-kit/fa/searchPlus'
 
 import './newArrival.css'
+import SingleProductModal from './SingleProductModal';
 const NewArrival = () => {
     const [products] = UseProduct()
+
+    const [productModal,setProductModal]=useState(null)
    
 
     return (
-        <div className='grid lg:grid-cols-4  grid-cols-2 gap-4 2'>
+        <>
+         <div className='grid lg:grid-cols-4  grid-cols-2 gap-4 2'>
             {products.slice(0, 6).map(pt => {
                 return (
-                    <div className='border-2'>
+                    <div key={pt._id} className='border-2'>
                      
                         <div className=' hoverimg relative' >
                             <img  src={pt?.img} alt="" />
@@ -22,7 +26,10 @@ const NewArrival = () => {
                                 <span className='flex justify-center items-center h-full gap-x-4'>
                                     <span className= ' hover-btn'><Icon icon={ic_add_shopping_cart} className="" size={20}></Icon></span>
                                     <span className='hover-btn'><Icon icon={heartO} size={20}></Icon></span>
-                                    <span className='hover-btn'><Icon icon={searchPlus} size={20}></Icon></span>
+
+                                    
+                                    <label for="singleProductModal"> <span onClick={()=>setProductModal(pt)} className='hover-btn'><Icon icon={searchPlus} size={20}></Icon></span></label>
+
                                 </span>
                                 
                              </div>
@@ -37,7 +44,11 @@ const NewArrival = () => {
                     </div>
                 )
             })}
-        </div>
+            </div>
+            {
+                productModal&&<SingleProductModal productModal={productModal} setProductModal={setProductModal} ></SingleProductModal>
+            }
+        </>
     );
 };
 

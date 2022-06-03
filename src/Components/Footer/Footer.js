@@ -28,6 +28,7 @@ const Footer = () => {
             <form onSubmit={handleSubscribe}>
               <input
                 type="email"
+                required
                 className="lg:w-[80%] w-[60%] h-12 focus:outline-none px-4"
                 placeholder="Your Email Addrees"
               />
@@ -169,8 +170,8 @@ const Footer = () => {
            
               <div className="lg:px-12 px-4 grid lg:grid-cols-2 lg:justify-around justify-center ">
                   <div className="flex lg:justify-start mb-4 justify-center">    <p> Copyright &copy;  {new Date().getFullYear()} oility  </p></div>
-                  <div className="lg:flex lg:justify-end  lg:block hidden">
-                      <img src="https://i.ibb.co/SJmt8qz/1-1.webp" alt="" />
+                  <div  className="lg:flex lg:justify-end  lg:block hidden">
+                      <img  className=" h-[30px]" src="https://i.ibb.co/SJmt8qz/1-1.webp" alt="" />
                   </div>
               </div>
           </div>

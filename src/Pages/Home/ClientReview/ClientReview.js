@@ -10,7 +10,6 @@ const ClientReview = () => {
     const url = "http://localhost:5000/reviews"
     const { data, isLoading } = useQuery("reviews", () => fetch(url).then(res => res.json()))
     
-    console.log(data)
     if (isLoading) {
         return <Loading/>
     }

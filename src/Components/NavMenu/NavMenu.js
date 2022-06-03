@@ -15,6 +15,10 @@ const NavMenu = ({ children }) => {
       <li className="hover:text-primary-focus ">
         <CustomLink to="/shop">Shop</CustomLink>
       </li>
+      <li className="hover:text-primary-focus ">
+        <CustomLink to="/contactus">Contact Us</CustomLink>
+      </li>
+     
       <li className="hover:text-primary-focus "> 
         <CustomLink to="/blog">Blog</CustomLink>
       </li>
@@ -23,7 +27,7 @@ const NavMenu = ({ children }) => {
       </li>
       <li className="hover:text-primary-focus ">
         <CustomLink to="/Signup">Signup</CustomLink>
-          </li>
+      </li>
           <li className="hover:text-primary-focus lg:hidden  " >
               <span className=""><Icon  icon={userO} size={20} /> Login</span>
                
