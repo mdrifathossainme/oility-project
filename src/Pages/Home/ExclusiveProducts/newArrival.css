@@ -10,6 +10,11 @@
     border-radius: 2px;
     cursor: pointer;
     
+}.red-white{
+      background:rgb(255, 255, 255);
+    padding: 5px 5px;
+    border-radius: 2px;
+    color: red;
 }
 .hoverimg:hover>.hover-bg{
     display: block;

@@ -12,9 +12,9 @@ import Cart from './Pages/Cart/Cart';
 import ContactUs from './Pages/ContactUs/Contactus';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import LoadingNE from './Components/Loading/LoadingNE';
 import RequierAuth from './Components/RequierAuth/RequierAuth';
 import SingleProductDatails from './Pages/Shop/SingleProductDatails';
+import WhiteList from './Pages/WishList/WhiteList';
 
 function App() {
   return (
@@ -31,6 +31,7 @@ function App() {
             </RequierAuth>
           }></Route>
           <Route path='/blog' element={<Blog/>}></Route>
+          <Route path='/whitelist' element={<WhiteList/>}></Route>
           <Route path='/login' element={<Login/>}></Route>
           <Route path='/signup' element={<Signup/>}></Route>
           <Route path='/contactus' element={<ContactUs/>}></Route>

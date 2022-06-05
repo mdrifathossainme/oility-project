@@ -67,7 +67,7 @@ const NavMenu = ({ children }) => {
       </li>
       <li className="hover:text-primary-focus block lg:hidden ">
         <span className=" ">
-          <Icon icon={heartO} size={20} /> Wishlist
+           <CustomLink to="/whitelist">   <Icon icon={heartO} size={20} /> Wishlist</CustomLink>
         </span>
       </li>
     </>
@@ -140,8 +140,9 @@ const NavMenu = ({ children }) => {
           </>
         )}    </span>
 
-                  <span className={`mx-4 ${user? "lg:mt-2":"mt-0"}  hidden lg:block cursor-pointer hover:text-primary-focus `}>
-                    <Icon icon={heartO} size={20} /> Wishlist
+                  <span className={`mx-4 ${user ? "lg:mt-2" : "mt-0"}  hidden lg:block cursor-pointer hover:text-primary-focus `}>
+                    <CustomLink to="/whitelist">   <Icon icon={heartO} size={20} /> Wishlist</CustomLink>
+                 
                   </span>
 
                   <Link to="cart">

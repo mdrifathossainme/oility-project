@@ -7,7 +7,7 @@ import RequireAuth from "../../../Components/RequierAuth/RequierAuth"
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../../firebase.init';
 import Loading from '../../../Components/Loading/Loading';
-const SingleProductModal = ({ productModal,setProductModal }) => {
+const SingleProductModal = ({ productModal,setProductModal,refetch}) => {
    
     const [orderQunatity, setOrderQunatiry] = useState(1)
     const [user,loading]=useAuthState(auth)
@@ -61,18 +61,18 @@ const SingleProductModal = ({ productModal,setProductModal }) => {
     .then(res=>res.json())
         .then(data => {
         if (data.success === false) {
-            toast.error('Tish Product Already Add')
+            toast.error('This Product Already Add')
             }
         else {
-        toast.success('Order Success')
+           
+           refetch()
+            toast.success('Order Success')
             }
         
           setProductModal(null)
         })
         
         const stock = productModal.stock - orderQunatity
-        console.log(stock)
-        
         const upUrl = `http://localhost:5000/displayproducts/${productModal._id}`
         fetch(upUrl, {
             method: "PUT",
@@ -80,6 +80,12 @@ const SingleProductModal = ({ productModal,setProductModal }) => {
                 "content-type":"application/json"
             },
             body:JSON.stringify({stock})
+        })
+            .then(res => res.json())
+            .then(data => {
+                
+                
+    
         })
 
     }
