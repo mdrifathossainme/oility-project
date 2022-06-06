@@ -4,21 +4,20 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import { Icon } from 'react-icons-kit'
 import {heartO} from 'react-icons-kit/fa/heartO'
+import { useQuery } from "react-query";
+import Loading from "../../Components/Loading/Loading"
 const WhiteList = () => {
   const[user]=useAuthState(auth) 
 
-    const [whishList, setWishList] = useState([])
-    
   const wishlistUrl = `https://pacific-falls-37798.herokuapp.com/whishlistlove?email=${user?.email}`
   
-            
-  useEffect(() => {
-     fetch(wishlistUrl)
-            .then(res => res.json())
-            .then(data => setWishList(data))
+  const{data:whishList,isLoading ,refetch}=useQuery('whitelist',()=>fetch(wishlistUrl).then(res=>res.json()))
     
-  },[])
-
+ 
+  if (isLoading) {
+    return <Loading/>
+  }
+      
     const handleDeleted = id => {
         const url = `http://localhost:5000/wishitemdelet/${id}`
         fetch(url,{
@@ -27,15 +26,11 @@ const WhiteList = () => {
             .then(res => res.json())
           .then(data => {
             if (data.acknowledged === true) {
-              const newitem = whishList.filter(item => item._id !== id)
-              setWishList(newitem)
+             refetch()
               }
         })
     
 }
-
-  console.log(whishList)
-
 
 
   return (
@@ -63,7 +58,7 @@ const WhiteList = () => {
                       
 
                       {
-                          whishList.map(wishitem => {
+                          whishList?.map(wishitem => {
                               return (
                                   
                                     <tr>
