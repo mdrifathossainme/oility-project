@@ -14,7 +14,7 @@ const AllProducts = ({ selectgrid }) => {
   const { data } = useQuery("allproduct", () =>
     fetch(url).then((res) => res.json())
   );
-  const wishlistUrl = `https://pacific-falls-37798.herokuapp.com/whishlistlove?email=${user?.email}`;
+  const wishlistUrl = `http://localhost:5000/whishlistlove?email=${user?.email}`;
   const {
     data: whishList,
     isLoading: as,

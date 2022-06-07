@@ -33,7 +33,7 @@ const SingleProductModal = ({ productModal,setProductModal,refetch}) => {
 
     const order = {
         name: productModal.name,
-        email:user.email,
+        email:user?.email,
         img:productModal.img,
         category:productModal.category,
         seller:productModal.seller,
@@ -100,8 +100,9 @@ const SingleProductModal = ({ productModal,setProductModal,refetch}) => {
       
     
         <>  
-             <RequireAuth>
-                 <input type="checkbox" id="singleProductModal" class="modal-toggle" />
+            
+            <RequireAuth>
+              <input type="checkbox" id="singleProductModal" class="modal-toggle" />
               <div class="modal ">
                     <div class="modal-box w-8/12 max-w-full max-h-[90%] ">
                     <label onClick={handleClose} for="singleProductModal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
@@ -150,6 +151,7 @@ const SingleProductModal = ({ productModal,setProductModal,refetch}) => {
                                
                                 
                             </div>
+
                             <button disabled={productModal.stock < orderQunatity|| productModal.stock===0} onClick={handOrder} className='btn btn-primary  rounded-none text-white mt-4 hover:bg-transparent hover:text-primary '>Add To Cart</button>
                            
                        
@@ -159,9 +161,10 @@ const SingleProductModal = ({ productModal,setProductModal,refetch}) => {
                                  
                  
                 </div>
-                </div>             
+                </div>     
+            </RequireAuth>        
                 
-             </RequireAuth>
+         
             
         </>
     );

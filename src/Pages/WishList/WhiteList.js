@@ -9,7 +9,7 @@ import Loading from "../../Components/Loading/Loading"
 const WhiteList = () => {
   const[user]=useAuthState(auth) 
 
-  const wishlistUrl = `https://pacific-falls-37798.herokuapp.com/whishlistlove?email=${user?.email}`
+  const wishlistUrl = `http://localhost:5000/whishlistlove?email=${user?.email}`
   
   const{data:whishList,isLoading ,refetch}=useQuery('whitelist',()=>fetch(wishlistUrl).then(res=>res.json()))
     
@@ -86,7 +86,7 @@ const WhiteList = () => {
      
                 <Icon  icon={heartO} size={150} />
             <p className="font-bold text-xl mt-4">No items found in wishlist</p>
-            <Link to=""> <button className="btn btn-primary rounded-sm hover:bg-transparent hover:text-primary w-[150px] mt-4 ">Add Item</button></Link>
+            <Link to="/shop"> <button className="btn btn-primary rounded-sm hover:bg-transparent hover:text-primary w-[150px] mt-4 ">Add Item</button></Link>
         </div>
           
         </>
