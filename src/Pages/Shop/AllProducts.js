@@ -8,36 +8,30 @@ import { heart } from "react-icons-kit/fa/heart";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import { Link } from "react-router-dom";
-const AllProducts = ({ selectgrid }) => {
+const AllProducts = ({ selectgrid ,category }) => {
   const [user] = useAuthState(auth);
   const [product,setProduct]=useState([])
   const [pageCount, setPagecount] = useState(0)
   const [page, setPage] = useState(0)
+  const [limit,setLimit]=useState(12)
+  const [categori,setCategoti]=useState(0)
   const [whishList,setwi]=useState([])
 
 
 
-
-  // const wishlistUrl = `http://localhost:5000/whishlistlove?email=${user?.email}`;
-  // const {
-  //   data: whishList,
-  //   isLoading: as,
-  //   refetch: asd,
-  // } = useQuery("whishlistl", () =>
-  //   fetch(wishlistUrl).then((res) => res.json())
-  //   );
   
   
   useEffect(() => {
-     const url = `http://localhost:5000/allproducts?page=${page}`;
+     const url = `http://localhost:5000/allproducts?page=${category? categori:page}&category=${category}&limit=${category? "":limit}`;
     fetch(url)
       .then(res => res.json())
       .then(data => setProduct(data) )
 
-  },[page])
+  },[page,category])
   
+
   
-  const pageCounturl='http://localhost:5000/productscount'
+  const pageCounturl=`http://localhost:5000/productscount`
   useEffect(() => {
     fetch(pageCounturl)
       .then(res => res.json())
@@ -47,9 +41,11 @@ const AllProducts = ({ selectgrid }) => {
         setPagecount(pages)
 
     })
-  },[])
+  },[category])
   
-  
+
+
+ 
   
   
   
@@ -63,6 +59,7 @@ const AllProducts = ({ selectgrid }) => {
         {product?.map((pt) => {
           return (
             <div
+              
               key={pt?._id}
               className={`${
                 selectgrid === true
@@ -70,6 +67,7 @@ const AllProducts = ({ selectgrid }) => {
                   : "border-2 relative"
               }  `}
             >
+              
               <div
                 className={`${
                   selectgrid === true ? "col-span-1" : "hoverimg relative"
@@ -203,7 +201,9 @@ const AllProducts = ({ selectgrid }) => {
           );
         })}
       </div>
-      <div className="flex justify-center mt-12">
+      {
+        category?"": <>
+         <div className="flex justify-center mt-12">
         {
           [...Array(pageCount).keys()].map(number =>
           
@@ -215,6 +215,8 @@ const AllProducts = ({ selectgrid }) => {
             </button>)
       }
       </div>
+        </>
+     }
     </div>
   );
 };

@@ -18,7 +18,7 @@ const Footer = () => {
   };
 
   return (
-    <div className="">
+    <div >
       <div className="bg-primary py-16  ">
         <div className="lg:px-16 px-8 gap-4 grid grid-cols-1 lg:grid-cols-2 items-center">
           <div>
@@ -45,11 +45,11 @@ const Footer = () => {
         <div className="grid grid-cols-2  gap-4 lg:grid-cols-10 ">
           <div className=" col-span-2 ">
             <span>
-              <img
+              <Link to="/"><img
                 className="mb-4"
                 src="https://i.ibb.co/8z9vTrz/logo-light.png"
                 alt=""
-              />
+              /></Link>
             </span>
             <p className="mb-8 ">
               If you are going to use of Lorem Ipsum need to be sure there isn't
