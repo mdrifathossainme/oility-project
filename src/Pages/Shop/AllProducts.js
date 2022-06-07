@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Icon } from "react-icons-kit";
 import { ic_add_shopping_cart } from "react-icons-kit/md/ic_add_shopping_cart";
@@ -10,19 +10,49 @@ import auth from "../../firebase.init";
 import { Link } from "react-router-dom";
 const AllProducts = ({ selectgrid }) => {
   const [user] = useAuthState(auth);
-  const url = `http://localhost:5000/allproducts`;
-  const { data } = useQuery("allproduct", () =>
-    fetch(url).then((res) => res.json())
-  );
-  const wishlistUrl = `http://localhost:5000/whishlistlove?email=${user?.email}`;
-  const {
-    data: whishList,
-    isLoading: as,
-    refetch: asd,
-  } = useQuery("whishlistl", () =>
-    fetch(wishlistUrl).then((res) => res.json())
-  );
-  console.log(data);
+  const [product,setProduct]=useState([])
+  const [pageCount, setPagecount] = useState(0)
+  const [page, setPage] = useState(0)
+  const [whishList,setwi]=useState([])
+
+
+
+
+  // const wishlistUrl = `http://localhost:5000/whishlistlove?email=${user?.email}`;
+  // const {
+  //   data: whishList,
+  //   isLoading: as,
+  //   refetch: asd,
+  // } = useQuery("whishlistl", () =>
+  //   fetch(wishlistUrl).then((res) => res.json())
+  //   );
+  
+  
+  useEffect(() => {
+     const url = `http://localhost:5000/allproducts?page=${page}`;
+    fetch(url)
+      .then(res => res.json())
+      .then(data => setProduct(data) )
+
+  },[page])
+  
+  
+  const pageCounturl='http://localhost:5000/productscount'
+  useEffect(() => {
+    fetch(pageCounturl)
+      .then(res => res.json())
+      .then(data => {
+        const count = data.count;
+        const pages = Math.ceil(count / 12)
+        setPagecount(pages)
+
+    })
+  },[])
+  
+  
+  
+  
+  
   return (
     <div>
       <div
@@ -30,7 +60,7 @@ const AllProducts = ({ selectgrid }) => {
           selectgrid === false ? "lg:grid-cols-3 grid-cols-2 gap-4  " : "grid-cols-1 gap-8 "
         }   `}
       >
-        {data?.map((pt) => {
+        {product?.map((pt) => {
           return (
             <div
               key={pt?._id}
@@ -60,7 +90,7 @@ const AllProducts = ({ selectgrid }) => {
                         </span>
                       </label>
 
-                      {whishList?.find((wn) => wn.name === pt.name, asd()) ? (
+                      {whishList?.find((wn) => wn.name === pt.name) ? (
                         <span className="hover-btn red-white">
                           <Icon icon={heart} size={20}></Icon>
                         </span>
@@ -132,7 +162,7 @@ const AllProducts = ({ selectgrid }) => {
                               
 
                               <span>
-                                    {whishList?.find((wn) => wn.name === pt.name, asd()) ? (
+                                    {whishList?.find((wn) => wn.name === pt.name, ) ? (
                         <span className="hover:text-primary cursor-pointer red-white">
                           <Icon icon={heart} size={20}></Icon>
                         </span>
@@ -172,6 +202,18 @@ const AllProducts = ({ selectgrid }) => {
             </div>
           );
         })}
+      </div>
+      <div className="flex justify-center mt-12">
+        {
+          [...Array(pageCount).keys()].map(number =>
+          
+            <button
+            onClick={()=>setPage(number)}
+              className={`btn   min-h-0  rounded-sm  border-2  border-gray-200  hover:bg-primary hover:border-primary  mx-2 ${page===number? "bg-primary text-white ":""}`}>
+              {number + 1}
+            
+            </button>)
+      }
       </div>
     </div>
   );
