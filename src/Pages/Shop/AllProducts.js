@@ -3,11 +3,12 @@ import { useQuery } from "react-query";
 import { Icon } from "react-icons-kit";
 import { ic_add_shopping_cart } from "react-icons-kit/md/ic_add_shopping_cart";
 import { heartO } from "react-icons-kit/fa/heartO";
-import { searchPlus } from "react-icons-kit/fa/searchPlus";
+import {cog} from 'react-icons-kit/fa/cog'
 import { heart } from "react-icons-kit/fa/heart";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 const AllProducts = ({ selectgrid ,category }) => {
   const [user] = useAuthState(auth);
   const [product,setProduct]=useState([])
@@ -15,10 +16,13 @@ const AllProducts = ({ selectgrid ,category }) => {
   const [page, setPage] = useState(0)
   const [limit,setLimit]=useState(12)
   const [categori,setCategoti]=useState(0)
-  const [whishList,setwi]=useState([])
 
 
 
+
+
+const wishlistUrl = `http://localhost:5000/whishlistlove?email=${user?.email}`
+const { data:whishList, isLoading:as, refetch:asd } = useQuery("whishlistl", ()=> fetch(wishlistUrl).then(res => res.json()))
   
   
   useEffect(() => {
@@ -43,7 +47,50 @@ const AllProducts = ({ selectgrid ,category }) => {
     })
   },[category])
   
-
+ const handleWhiteList = (pt) => {
+        const {_id, ...rest } = pt        
+        const whiteListProduct = { email:user?.email, ...rest }
+     
+        const url = `http://localhost:5000/whitelist`
+        
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "content-type":"application/json"
+            },
+            body:JSON.stringify(whiteListProduct)
+            
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.acknowledged === true) {
+                    toast.success('white List Product Add Success')
+                    
+                }
+                else {
+                    toast.error("The product is already on this White List")
+                }
+            })
+        
+        
+        
+    
+  }
+  
+  const handleDeleted = id => {
+    const url = `http://localhost:5000/wishitemdelet/${id}`
+    console.log(id)
+    fetch(url, {
+      method: "delete"
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.acknowledged === true) {
+          asd()
+        }
+      })
+  }
+  
 
  
   
@@ -79,7 +126,7 @@ const AllProducts = ({ selectgrid ,category }) => {
                   alt=""
                 />
                 {pt.stock > 0 && selectgrid === false && (
-                  <div className=" hover-bg h-full w-full absolute top-0 ">
+                  <div  data-aos="fade-up" className=" hover-bg h-full w-full absolute top-0 ">
                     <span className="flex justify-center items-center h-full gap-x-4">
                       <label for="singleProductModal">
                   
@@ -88,21 +135,21 @@ const AllProducts = ({ selectgrid ,category }) => {
                         </span>
                       </label>
 
-                      {whishList?.find((wn) => wn.name === pt.name) ? (
-                        <span className="hover-btn red-white">
+                      {whishList?.find((wn) => wn?.name === pt.name,asd()) ? (
+                        <span onClick={()=>handleDeleted(pt._id)} className="hover-btn red-white">
                           <Icon icon={heart} size={20}></Icon>
                         </span>
                       ) : (
-                        <span className="hover-btn">
+                        <span onClick={()=>handleWhiteList(pt)} className="hover-btn">
                           <Icon icon={heartO} size={20}></Icon>
                         </span>
                       )}
 
                  
                    
-                        <span className="hover-btn">
-                          <Icon icon={searchPlus} size={20}></Icon>
-                        </span>
+                    <Link to={`/prodduct/${pt._id}`}> <span className="hover-btn">
+                          <Icon icon={cog} size={20}></Icon>
+                        </span></Link>
         
                     </span>
                   </div>
@@ -160,9 +207,9 @@ const AllProducts = ({ selectgrid ,category }) => {
                               
 
                               <span>
-                                    {whishList?.find((wn) => wn.name === pt.name, ) ? (
-                        <span className="hover:text-primary cursor-pointer red-white">
-                          <Icon icon={heart} size={20}></Icon>
+                                    {whishList?.find((wn) => wn?.name === pt.name, ) ? (
+                        <span  onClick={()=>handleDeleted(pt._id)} className="hover:text-primary cursor-pointer red-white">
+                          <Icon  onClick={()=>handleWhiteList(pt)} icon={heart} size={20}></Icon>
                         </span>
                       ) : (
                         <span className="hover:text-primary cursor-pointer">
@@ -174,12 +221,12 @@ const AllProducts = ({ selectgrid ,category }) => {
                  
                    
                         <span className=" hover:text-primary cursor-pointer">
-                          <Icon icon={searchPlus} size={20}></Icon>
+                          <Icon icon={cog} size={20}></Icon>
                         </span>
                          </div>
                       </div>
 
-                <span className={`${selectgrid===false? "flex items-center gap-x-2":"hidden" }`}>
+                    <span className={`${selectgrid===false? "flex items-center gap-x-2":"hidden" }`}>
               
                   <img
                     className="w-24"

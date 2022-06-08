@@ -193,7 +193,7 @@ const Signup = () => {
           </div>
 
           <span className="flex items-center  ">
-            {" "}
+            
             <label htmlFor="checkbox" className="order-2 pl-2">
               I agree to terms & Policy.
             </label>
@@ -222,12 +222,12 @@ const Signup = () => {
           </button>
         </div>
         <p className="text-center my-4">
-          Already have an account?{" "}
+          Already have an account?
           <span className="font-bold">
             <Link to="/login" className="hover:text-primary">
               Log in
             </Link>
-          </span>{" "}
+          </span>
         </p>
       </div>
     </div>

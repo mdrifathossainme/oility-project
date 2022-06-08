@@ -7,11 +7,14 @@ import {heartO} from 'react-icons-kit/fa/heartO'
 import { useQuery } from "react-query";
 import Loading from "../../Components/Loading/Loading"
 const WhiteList = () => {
-  const[user]=useAuthState(auth) 
+  const [user] = useAuthState(auth) 
+
 
   const wishlistUrl = `http://localhost:5000/whishlistlove?email=${user?.email}`
   
-  const{data:whishList,isLoading ,refetch}=useQuery('whitelist',()=>fetch(wishlistUrl).then(res=>res.json()))
+  const { data:whishList, isLoading, refetch } = useQuery('whitelist', () => fetch(wishlistUrl).then(res => res.json()))
+  
+
     
  
   if (isLoading) {
@@ -26,12 +29,15 @@ const WhiteList = () => {
             .then(res => res.json())
           .then(data => {
             if (data.acknowledged === true) {
-             refetch()
-              }
+           refetch()
+             }
         })
-    
-}
-refetch()
+
+  }
+  if (whishList) {
+    refetch()
+  }
+
 
   return (
     <>
@@ -40,7 +46,7 @@ refetch()
         <h1 className="text-3xl pb-4">Wish List</h1>
 
         {
-            whishList.length>0?   <>
+            whishList?.length>0?   <>
          <div class="">
   <table class="table w-full">
    
@@ -80,13 +86,15 @@ refetch()
     </tbody>
   </table>
           </div>
-        </>:  <>
+          </> : <>
+               
           
           <div className="h-full w-full flex flex-col justify-center items-center">
      
                 <Icon  icon={heartO} size={150} />
             <p className="font-bold text-xl mt-4">No items found in wishlist</p>
-            <Link to="/shop"> <button className="btn btn-primary rounded-sm hover:bg-transparent hover:text-primary w-[150px] mt-4 ">Add Item</button></Link>
+                <Link to="/shop"> <button className="btn btn-primary rounded-sm hover:bg-transparent hover:text-primary w-[150px] mt-4 ">Add Item</button></Link>
+               
         </div>
           
         </>

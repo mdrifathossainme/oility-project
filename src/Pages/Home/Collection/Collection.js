@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Collection = () => {
     return (
@@ -14,7 +15,8 @@ const Collection = () => {
                     <span className='lg:pr-16 pr-8'>
                         <h2 className='lg:text-xl mb-2'>Super Sale</h2>
                         <h1 className='lg:text-4xl text-2xl'>New Collection</h1>
-                       <button className='border-b-2 mt-2 font-bold border-primary hover:text-primary'>Shop Now</button>
+                      <Link data-aos="fade-right" data-aos-easing="ease-out-cubic"
+     data-aos-duration="1000" to="/shop"> <button className='border-b-2 mt-2 font-bold border-primary hover:text-primary'>Shop Now</button></Link>
                      </span>
                </div>
             </div>

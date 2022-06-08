@@ -15,21 +15,23 @@ import 'react-toastify/dist/ReactToastify.css';
 import RequierAuth from './Components/RequierAuth/RequierAuth';
 import SingleProductDatails from './Pages/Shop/SingleProductDatails';
 import WhiteList from './Pages/WishList/WhiteList';
-
 function App() {
+   
   return (
     <div className="App">
 
+    
       <NavMenu>
         <Routes>
           <Route path='/' element={<Home/>}></Route>
           <Route path='/home' element={<Home/>}></Route>
           <Route path='/shop' element={<Shop/>}></Route>
-          <Route path='/shop' element={
+          <Route path='/prodduct/:id' element={
             <RequierAuth>
              <SingleProductDatails/>
             </RequierAuth>
           }></Route>
+          
           <Route path='/blog' element={<Blog/>}></Route>
           <Route path='/whitelist' element={<WhiteList/>}></Route>
           <Route path='/login' element={<Login/>}></Route>

@@ -12,7 +12,6 @@ import { signOut } from "firebase/auth";
 const NavMenu = ({ children }) => {
   const [user] = useAuthState(auth);
 
-  console.log(user);
   const logout = () => {
     signOut(auth);
   };

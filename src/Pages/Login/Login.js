@@ -145,7 +145,7 @@ const Login = () => {
                 <span
                   onClick={() => setForgotPasswordToggle(!forgotpasswordToggle)}
                 >
-                  {" "}
+                  
                   Forgot password?
                 </span>
               </span>
@@ -178,7 +178,7 @@ const Login = () => {
               <Link to="/signup" className="hover:text-primary">
                 Resigter
               </Link>
-            </span>{" "}
+            </span>
           </p>
         </div>
       </div>
@@ -219,7 +219,7 @@ const Login = () => {
               <span
                 onClick={() => setForgotPasswordToggle(!forgotpasswordToggle)}
               >
-                {" "}
+                
                 Login
               </span>
             </span>

@@ -145,7 +145,7 @@ const Footer = () => {
                     <Icon className=" cursor-pointer " icon={envelopeOpen} />
                   </div>
                   <div>
-                    {" "}
+                    
                     <a
                       className="hover:text-primary "
                       href="mailto:mdrifathossain.mr@gmail.com"

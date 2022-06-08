@@ -168,7 +168,7 @@ const Shop = () => {
                 (10)
               </div>
             </div>
-            <div className="lg:mt-12 lg-4">
+            <div className="lg:mt-12 mt-4">
               <h1 className="text-xl">Size</h1>
               <div className="mt-4 flex gap-3">
                 <button
@@ -213,7 +213,7 @@ const Shop = () => {
                 </button>
               </div>
             </div>
-            <div className="lg:mt-12 lg-4">
+            <div className="lg:mt-12 mt-4">
               <h1 className="text-xl">color</h1>
               <div className="mt-4 flex gap-3">
                 <div
@@ -405,9 +405,10 @@ const Shop = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-3 lg:order-2 order-1">
-            .
-            <div className="">
+          <div data-aos-easing="ease-out-cubic"
+            data-aos-duration="500" data-aos="zoom-in" className="lg:col-span-3 lg:order-2 order-1">
+            
+            <div   className="">
               <AllProducts category={category} selectgrid={selectgrid} />
             </div>
           </div>

@@ -31,9 +31,14 @@ const HomeCarosel = () => {
                   <div className="lg:p-16  p-8 ">
                         
                       
-                        <p className='lg:mt-[120px] lg:mb-6 lg:text-2xl'>50% off in all product</p>
-                        <h1 className='lg:text-7xl text-3xl mb-4'>Man Fashion</h1>
-                        <button className='btn btn-primary lg:w-36 rounded-none hover:bg-transparent hover:text-primary '>Shop Now</button>
+                        <p data-aos="fade-right" data-aos-easing="ease-out-cubic"
+     data-aos-duration="1000" className='lg:mt-[120px] lg:mb-6 lg:text-2xl'>50% off in all product</p>
+                        <h1 data-aos="fade-right" data-aos-easing="ease-out-cubic"
+     data-aos-duration="1000"  className='lg:text-7xl text-3xl mb-4'>Man Fashion</h1>
+              <span data-aos="fade-right" data-aos-easing="ease-out-cubic"
+     data-aos-duration="1000">
+                <button  className='btn btn-primary lg:w-36 rounded-none hover:bg-transparent hover:text-primary '>Shop Now</button>
+                        </span>
                
                   </div>
         </SwiperSlide>
@@ -48,7 +53,7 @@ const HomeCarosel = () => {
                   <div className="lg:p-16  p-8 ">
                         
                       
-                        <p className='lg:mt-[120px] lg:mb-6 lg:text-2xl'>40% off in all product</p>
+                        <p data-aos="fade-right" className='lg:mt-[120px] lg:mb-6 lg:text-2xl'>40% off in all product</p>
                         <h1 className='lg:text-7xl text-3xl mb-4'>Woman Fashion</h1>
                         <button className='btn btn-primary lg:w-36 rounded-none hover:bg-transparent hover:text-primary'>Shop Now</button>
                

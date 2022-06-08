@@ -26,7 +26,7 @@ const NewArrival = () => {
 const { data, isLoading, refetch } = useQuery("newavail", () => fetch(url).then(res => res.json()))
 const { data:whishList, isLoading:as, refetch:asd } = useQuery("whishlistl", () => fetch(wishlistUrl).then(res => res.json()))
     
-  if (isLoading) {
+  if (isLoading||as) {
         return <Loading/>
     }
 
