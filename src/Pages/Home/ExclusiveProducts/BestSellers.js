@@ -19,8 +19,8 @@ const BestSellers = () => {
     
  
 
-    const url = "http://localhost:5000/displayproducts"
-    const wishlistUrl = `http://localhost:5000/whishlistlove?email=${user?.email}`
+    const url = "https://pacific-falls-37798.herokuapp.com/displayproducts"
+    const wishlistUrl = `https://pacific-falls-37798.herokuapp.com/whishlistlove?email=${user?.email}`
  
 const { data, isLoading, refetch } = useQuery("newavail", () => fetch(url).then(res => res.json()))
 const { data:whishList, isLoading:as, refetch:asd } = useQuery("whishlistl", () => fetch(wishlistUrl).then(res => res.json()))
@@ -44,7 +44,7 @@ const { data:whishList, isLoading:as, refetch:asd } = useQuery("whishlistl", () 
         
         const whiteListProduct = { email:user?.email, ...rest }
      
-        const url = `http://localhost:5000/whitelist`
+        const url = `https://pacific-falls-37798.herokuapp.com/whitelist`
         
         fetch(url, {
             method: "POST",

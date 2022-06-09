@@ -7,7 +7,7 @@ import {Navigation } from "swiper";
 import { useQuery } from 'react-query';
 import Loading from "../../../Components/Loading/Loading"
 const ClientReview = () => {
-    const url = "http://localhost:5000/reviews"
+    const url = "https://pacific-falls-37798.herokuapp.com/reviews"
     const { data, isLoading } = useQuery("reviews", () => fetch(url).then(res => res.json()))
     
     if (isLoading) {

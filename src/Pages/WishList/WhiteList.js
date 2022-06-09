@@ -10,7 +10,7 @@ const WhiteList = () => {
   const [user] = useAuthState(auth) 
 
 
-  const wishlistUrl = `http://localhost:5000/whishlistlove?email=${user?.email}`
+  const wishlistUrl = `https://pacific-falls-37798.herokuapp.com/whishlistlove?email=${user?.email}`
   
   const { data:whishList, isLoading, refetch } = useQuery('whitelist', () => fetch(wishlistUrl).then(res => res.json()))
   
@@ -22,7 +22,7 @@ const WhiteList = () => {
   }
       
     const handleDeleted = id => {
-        const url = `http://localhost:5000/wishitemdelet/${id}`
+        const url = `https://pacific-falls-37798.herokuapp.com/wishitemdelet/${id}`
         fetch(url,{
             method:"delete"
         })
@@ -35,9 +35,9 @@ const WhiteList = () => {
 
   }
   if (whishList) {
-    refetch()
+ 
   }
-
+   refetch()
 
   return (
     <>

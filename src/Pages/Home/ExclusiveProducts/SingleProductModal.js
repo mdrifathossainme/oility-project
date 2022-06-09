@@ -49,7 +49,7 @@ const SingleProductModal = ({ productModal,setProductModal,refetch}) => {
 
     const handOrder = (e) => {
         e.preventDefault()
-      const url = `http://localhost:5000/order`
+      const url = `https://pacific-falls-37798.herokuapp.com/order`
     
     fetch(url, {
         method: "POST",
@@ -73,7 +73,7 @@ const SingleProductModal = ({ productModal,setProductModal,refetch}) => {
         })
         
         const stock = productModal.stock - orderQunatity
-        const upUrl = `http://localhost:5000/displayproducts/${productModal._id}`
+        const upUrl = `https://pacific-falls-37798.herokuapp.com/displayproducts/${productModal._id}`
         fetch(upUrl, {
             method: "PUT",
             headers: {

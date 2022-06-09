@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 
 const UseProduct = () => {
     const [products, setProducts] = useState([])
-    const url = "http://localhost:5000/displayproducts"
+    const url = "https://pacific-falls-37798.herokuapp.com/displayproducts"
     
 
     useEffect(() => {

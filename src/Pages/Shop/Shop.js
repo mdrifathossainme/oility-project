@@ -23,7 +23,7 @@ const Shop = () => {
   };
 
   useEffect(() => {
-    const url = `http://localhost:5000/productscount`;
+    const url = `https://pacific-falls-37798.herokuapp.com/productscount`;
     fetch(url)
       .then((res) => res.json())
       .then((data) => setPhoductLenght(data.count));

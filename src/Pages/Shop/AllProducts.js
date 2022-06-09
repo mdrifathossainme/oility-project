@@ -9,24 +9,27 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import Loading from "../../Components/Loading/Loading";
 const AllProducts = ({ selectgrid ,category }) => {
   const [user] = useAuthState(auth);
   const [product,setProduct]=useState([])
   const [pageCount, setPagecount] = useState(0)
   const [page, setPage] = useState(0)
   const [limit,setLimit]=useState(12)
-  const [categori,setCategoti]=useState(0)
+  const [categori, setCategoti] = useState(0)
+  const [alartModal, sentAlartModal] = useState(null)
+  
 
 
 
 
 
-const wishlistUrl = `http://localhost:5000/whishlistlove?email=${user?.email}`
+const wishlistUrl = `https://pacific-falls-37798.herokuapp.com/whishlistlove?email=${user?.email}`
 const { data:whishList, isLoading:as, refetch:asd } = useQuery("whishlistl", ()=> fetch(wishlistUrl).then(res => res.json()))
   
   
   useEffect(() => {
-     const url = `http://localhost:5000/allproducts?page=${category? categori:page}&category=${category}&limit=${category? "":limit}`;
+     const url = `https://pacific-falls-37798.herokuapp.com/allproducts?page=${category? categori:page}&category=${category}&limit=${category? "":limit}`;
     fetch(url)
       .then(res => res.json())
       .then(data => setProduct(data) )
@@ -35,7 +38,7 @@ const { data:whishList, isLoading:as, refetch:asd } = useQuery("whishlistl", ()=
   
 
   
-  const pageCounturl=`http://localhost:5000/productscount`
+  const pageCounturl=`https://pacific-falls-37798.herokuapp.com/productscount`
   useEffect(() => {
     fetch(pageCounturl)
       .then(res => res.json())
@@ -51,7 +54,7 @@ const { data:whishList, isLoading:as, refetch:asd } = useQuery("whishlistl", ()=
         const {_id, ...rest } = pt        
         const whiteListProduct = { email:user?.email, ...rest }
      
-        const url = `http://localhost:5000/whitelist`
+        const url = `https://pacific-falls-37798.herokuapp.com/whitelist`
         
         fetch(url, {
             method: "POST",
@@ -76,9 +79,11 @@ const { data:whishList, isLoading:as, refetch:asd } = useQuery("whishlistl", ()=
         
     
   }
+
+
   
   const handleDeleted = id => {
-    const url = `http://localhost:5000/wishitemdelet/${id}`
+    const url = `https://pacific-falls-37798.herokuapp.com/wishitemdelet/${id}`
     console.log(id)
     fetch(url, {
       method: "delete"
@@ -92,12 +97,15 @@ const { data:whishList, isLoading:as, refetch:asd } = useQuery("whishlistl", ()=
   }
   
 
+  if (!product) {
+  return <Loading/>
+}
  
   
   
   
   return (
-    <div>
+    <div id="#top">
       <div
         className={`grid ${
           selectgrid === false ? "lg:grid-cols-3 grid-cols-2 gap-4  " : "grid-cols-1 gap-8 "
@@ -126,13 +134,15 @@ const { data:whishList, isLoading:as, refetch:asd } = useQuery("whishlistl", ()=
                   alt=""
                 />
                 {pt.stock > 0 && selectgrid === false && (
-                  <div  data-aos="fade-up" className=" hover-bg h-full w-full absolute top-0 ">
+                  <div   data-aos="fade-up" className=" hover-bg h-full w-full absolute top-0 ">
                     <span className="flex justify-center items-center h-full gap-x-4">
                       <label for="singleProductModal">
                   
-                        <span className="hover-btn">
+                       {user?  <span className="hover-btn">
                           <Icon icon={ic_add_shopping_cart} size={20}></Icon>
-                        </span>
+                        </span>: <span onClick={() => alert("Login Fast")} className="hover-btn">
+                          <Icon icon={ic_add_shopping_cart} size={20}></Icon>
+                        </span>}
                       </label>
 
                       {whishList?.find((wn) => wn?.name === pt.name,asd()) ? (
@@ -140,14 +150,21 @@ const { data:whishList, isLoading:as, refetch:asd } = useQuery("whishlistl", ()=
                           <Icon icon={heart} size={20}></Icon>
                         </span>
                       ) : (
-                        <span onClick={()=>handleWhiteList(pt)} className="hover-btn">
+                          <>
+                          {user?  <span onClick={() => handleWhiteList(pt)} className="hover-btn">
+                            
                           <Icon icon={heartO} size={20}></Icon>
-                        </span>
+                            </span> :
+                              <span onClick={() => alert("Login Fast")} className="hover-btn">
+                            
+                          <Icon icon={heartO} size={20}></Icon>
+                        </span>}
+                          </>
                       )}
 
                  
                    
-                    <Link to={`/prodduct/${pt._id}`}> <span className="hover-btn">
+                      <Link to={`/prodduct/${pt._id}`}> <span className="hover-btn">
                           <Icon icon={cog} size={20}></Icon>
                         </span></Link>
         
@@ -201,28 +218,39 @@ const { data:whishList, isLoading:as, refetch:asd } = useQuery("whishlistl", ()=
                       </div>
                       <div className={`${selectgrid === true? "":"hidden"}`}>
                           <div className="flex items-center gap-x-4">
-                              <Link to=""><button className="btn  mt-2 rounded-sm btn-primary hover:bg-transparent text-white hover:text-primary"> <span className=" pr-2 hidden lg:block">
-                          <Icon icon={ic_add_shopping_cart} size={20}></Icon>
-                              </span> Add To Cart</button></Link>
+                              {user? <Link to=""><button className="btn  mt-2 rounded-sm btn-primary hover:bg-transparent text-white hover:text-primary"> <span className=" pr-2 hidden lg:block">
+                             <Icon icon={ic_add_shopping_cart} size={20}></Icon>
+                              </span> Add To Cart</button></Link>:<Link onClick={()=> alert("Login Fast") } to=""><button className="btn  mt-2 rounded-sm btn-primary hover:bg-transparent text-white hover:text-primary"> <span className=" pr-2 hidden lg:block">
+                             <Icon icon={ic_add_shopping_cart} size={20}></Icon>
+                              </span> Add To Cart</button></Link>}
                               
 
-                              <span>
-                                    {whishList?.find((wn) => wn?.name === pt.name, ) ? (
-                        <span  onClick={()=>handleDeleted(pt._id)} className="hover:text-primary cursor-pointer red-white">
-                          <Icon  onClick={()=>handleWhiteList(pt)} icon={heart} size={20}></Icon>
+                    <span>
+                      
+                          {whishList?.find((wn) => wn?.name === pt.name,asd()) ? (
+                        <span onClick={()=>handleDeleted(pt._id)} className="hover-btn red-white">
+                          <Icon icon={heart} size={20}></Icon>
                         </span>
                       ) : (
-                        <span className="hover:text-primary cursor-pointer">
+                          <>
+                          {user?  <span onClick={() => handleWhiteList(pt)} className="hover-btn">
+                            
                           <Icon icon={heartO} size={20}></Icon>
-                        </span>
+                            </span> :
+                              <span onClick={() => alert("Login Fast")} className="hover-btn">
+                            
+                          <Icon icon={heartO} size={20}></Icon>
+                        </span>}
+                          </>
                       )}
                       </span>
 
                  
                    
-                        <span className=" hover:text-primary cursor-pointer">
+                    
+                      <Link to={`/prodduct/${pt._id}`}> <span className="hover-btn">
                           <Icon icon={cog} size={20}></Icon>
-                        </span>
+                        </span></Link>
                          </div>
                       </div>
 
@@ -254,7 +282,7 @@ const { data:whishList, isLoading:as, refetch:asd } = useQuery("whishlistl", ()=
         {
           [...Array(pageCount).keys()].map(number =>
           
-            <button
+            <button for="#top"
             onClick={()=>setPage(number)}
               className={`btn   min-h-0  rounded-sm  border-2  border-gray-200  hover:bg-primary hover:border-primary  mx-2 ${page===number? "bg-primary text-white ":""}`}>
               {number + 1}

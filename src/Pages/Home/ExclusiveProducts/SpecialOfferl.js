@@ -18,8 +18,8 @@ const SpecialOfferl = () => {
     
  
 
-    const url = "http://localhost:5000/displayproducts"
-    const wishlistUrl = `http://localhost:5000/whishlistlove?email=${user?.email}`
+    const url = "https://pacific-falls-37798.herokuapp.com/displayproducts"
+    const wishlistUrl = `https://pacific-falls-37798.herokuapp.com/whishlistlove?email=${user?.email}`
  
 const { data, isLoading, refetch } = useQuery("newavail", () => fetch(url).then(res => res.json()))
 const { data:whishList, isLoading:as, refetch:asd } = useQuery("whishlistl", () => fetch(wishlistUrl).then(res => res.json()))
@@ -34,7 +34,7 @@ const { data:whishList, isLoading:as, refetch:asd } = useQuery("whishlistl", () 
         
         const whiteListProduct = { email:user?.email, ...rest }
      
-        const url = `http://localhost:5000/whitelist`
+        const url = `https://pacific-falls-37798.herokuapp.com/whitelist`
         
         fetch(url, {
             method: "POST",
@@ -88,7 +88,7 @@ const { data:whishList, isLoading:as, refetch:asd } = useQuery("whishlistl", () 
                              </div>}
                         </div>
                         <div className='p-2 '>
-                        <h4 className='py-2'>{pt?.name.slice(0,30)}</h4>
+                        <h4 className='py-2'>{pt?.name?.slice(0,30)}</h4>
                             <span className='text-primary py-1 flex justify-between '><h4>${pt?.price}</h4>  <span className='text-success'> { pt?.shipping}% off</span> </span>
                            <span className='flex items-center gap-x-2'> <img className='w-24' src="https://i.ibb.co/6B0VPQz/four-golden-star-rating-illustration-260nw-1442679176-1.png" alt="" />
                             <span>({pt?.ratingsCount})</span></span>

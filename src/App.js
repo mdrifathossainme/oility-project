@@ -1,4 +1,4 @@
-
+import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import NavMenu from './Components/NavMenu/NavMenu';
@@ -15,8 +15,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import RequierAuth from './Components/RequierAuth/RequierAuth';
 import SingleProductDatails from './Pages/Shop/SingleProductDatails';
 import WhiteList from './Pages/WishList/WhiteList';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 function App() {
-   
+  useEffect(() => {
+       AOS.init();
+  },[]) 
+
   return (
     <div className="App">
 

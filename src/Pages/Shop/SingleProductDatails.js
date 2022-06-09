@@ -16,15 +16,19 @@ import { youtubePlay } from "react-icons-kit/fa/youtubePlay";
 import { googlePlus } from "react-icons-kit/fa/googlePlus";
 import Footer from "../../Components/Footer/Footer";
 import { toast } from "react-toastify";
+import { useAuthState } from 'react-firebase-hooks/auth'
+  import auth from '../../firebase.init';;
 const SingleProductDatails = () => {
   const { id } = useParams();
+     const [user,loading]=useAuthState(auth)
 
-  const url = `http://localhost:5000/product/${id}`;
-  const { data, isLoading } = useQuery("singleProduct", () =>
+
+  const url = `https://pacific-falls-37798.herokuapp.com/product/${id}`;
+  const { data, isLoading,refetch } = useQuery("singleProduct", () =>
     fetch(url).then((res) => res.json())
   );
-  const [color, setColor] = useState();
-  const [size, setSize] = useState(1);
+  const [color, setColor] = useState("red");
+  const [size, setSize] = useState("X");
     const [quantity, setQuantity] = useState(1);
     const [tabarea, setTabArea] = useState(1);
     
@@ -41,25 +45,84 @@ const SingleProductDatails = () => {
             const newQuantity = quantity - 1
                 setQuantity(newQuantity)
         }
+  }
+  
+  if (isLoading) {
+    return <Loading />;
     }
+
 
     const handleReviewSubmit = (e) => {
         e.preventDefault()
         e.target.reset()
         toast.success("Thanks for Review")
-}
+  }
 
+  
 
+   const order = {
+        name: data?.name,
+        email:user?.email,
+        img:data?.img,
+        category:data?.category,
+        seller:data?.seller,
+        shipping: data?.shipping,
+        size:size,
+       orderQunatity: quantity,
+       color:color,
+        
+  }
 
+  const handOrder = (e) => {
+        e.preventDefault()
+      const url = `https://pacific-falls-37798.herokuapp.com/order`
+    
+    fetch(url, {
+        method: "POST",
+        headers: {
+            "content-type":"application/json"
+        },
+        body:JSON.stringify(order)
+    })
+    .then(res=>res.json())
+        .then(data => {
+        if (data.success === false) {
+            toast.error('This Product Already Add')
+            }
+        else {
+           refetch()
+            toast.success('Order Success')
+            }
+        
+        
+        })
+        
+        const stock = data.stock - quantity
+        const upUrl = `https://pacific-falls-37798.herokuapp.com/displayproducts/${data._id}`
+        fetch(upUrl, {
+            method: "PUT",
+            headers: {
+                "content-type":"application/json"
+            },
+            body:JSON.stringify({stock})
+        })
+            .then(res => res.json())
+            .then(data => {
+                
+                
+    
+        })
 
-
-
-
-
-  if (isLoading) {
-    return <Loading />;
     }
-    console.log(data)
+
+
+
+
+
+
+
+
+  
 
   return (
       <>
@@ -125,25 +188,25 @@ const SingleProductDatails = () => {
             </div>
             <div className=" flex gap-3">
               <div
-                onClick={() => setColor(0)}
+                onClick={() => setColor("red")}
                 className={` border-2 p-1 rounded-full ${
-                  color === 0 ? "border-primary" : ""
+                  color === 'red' ? "border-primary" : ""
                 }`}
               >
                 <div className="w-3 h-3 cursor-pointer rounded-full bg-red-500 "></div>
               </div>
               <div
-                onClick={() => setColor(1)}
+                onClick={() => setColor('black')}
                 className={` border-2 p-1 rounded-full ${
-                  color === 1 ? "border-primary" : ""
+                  color === 'black' ? "border-primary" : ""
                 }`}
               >
                 <div className="w-3 h-3 cursor-pointer rounded-full bg-black "></div>
               </div>
               <div
-                onClick={() => setColor(2)}
+                onClick={() => setColor("amber")}
                 className={`border-2 p-1 rounded-full ${
-                  color === 2 ? "border-primary" : ""
+                  color === 'amber' ? "border-primary" : ""
                 }`}
               >
                 <div className="w-3 h-3 cursor-pointer rounded-full bg-amber-800 "></div>
@@ -159,9 +222,9 @@ const SingleProductDatails = () => {
             </div>
             <div className="flex gap-3">
               <button
-                onClick={() => setSize(1)}
+                onClick={() => setSize("X")}
                 className={` btn btn-xs border-2  rounded-sm ${
-                  size === 1
+                  size === 'X'
                     ? "bg-primary text-white border-primary hover:bg-primary "
                     : "border-gray-200 "
                 } `}
@@ -169,9 +232,9 @@ const SingleProductDatails = () => {
                 x
               </button>
               <button
-                onClick={() => setSize(2)}
+                onClick={() => setSize('M')}
                 className={` btn btn-xs border-2  rounded-sm ${
-                  size === 2
+                  size === "M"
                     ? "bg-primary text-white border-primary hover:bg-primary "
                     : "border-gray-200 "
                 } `}
@@ -179,9 +242,9 @@ const SingleProductDatails = () => {
                 m
               </button>
               <button
-                onClick={() => setSize(3)}
+                onClick={() => setSize('XL')}
                 className={` btn btn-xs border-2  rounded-sm ${
-                  size === 3
+                  size === 'XL'
                     ? "bg-primary text-white border-primary hover:bg-primary "
                     : "border-gray-200 "
                 } `}
@@ -189,9 +252,9 @@ const SingleProductDatails = () => {
                 XL
               </button>
               <button
-                onClick={() => setSize(4)}
+                onClick={() => setSize('XXL')}
                 className={` btn border-2 btn-xs  rounded-sm ${
-                  size === 4
+                  size === 'XXL'
                     ? "bg-primary text-white border-primary hover:bg-primary "
                     : "border-gray-200 "
                 } `}
@@ -207,7 +270,7 @@ const SingleProductDatails = () => {
                           <span onClick={handlePlushQuantity} className=" cursor-pointer bg-slate-200 rounded-full py-[10px] px-[12px] "><Icon icon={plus} /></span>  
                       </div>
 
-            <button className="btn btn-primary text-white hover:bg-transparent hover:border-primary hover:text-primary rounded-sm "> <Icon className="pr-3" icon={shoppingCart} />  Add to Cart</button>              
+            <button onClick={handOrder} className="btn btn-primary text-white hover:bg-transparent hover:border-primary hover:text-primary rounded-sm "> <Icon className="pr-3" icon={shoppingCart} />  Add to Cart</button>              
            </div>
                   <div className="my-4 flex gap-x-4 items-center">
                       <p>Share : </p>

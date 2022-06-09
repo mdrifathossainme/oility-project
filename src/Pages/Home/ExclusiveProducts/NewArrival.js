@@ -20,8 +20,8 @@ const NewArrival = () => {
     
  
 
-    const url = "http://localhost:5000/displayproducts"
-    const wishlistUrl = `http://localhost:5000/whishlistlove?email=${user?.email}`
+    const url = "https://pacific-falls-37798.herokuapp.com/displayproducts"
+    const wishlistUrl = `https://pacific-falls-37798.herokuapp.com/whishlistlove?email=${user?.email}`
  
 const { data, isLoading, refetch } = useQuery("newavail", () => fetch(url).then(res => res.json()))
 const { data:whishList, isLoading:as, refetch:asd } = useQuery("whishlistl", () => fetch(wishlistUrl).then(res => res.json()))
@@ -36,7 +36,7 @@ const { data:whishList, isLoading:as, refetch:asd } = useQuery("whishlistl", () 
         
         const whiteListProduct = { email:user?.email, ...rest }
      
-        const url = `http://localhost:5000/whitelist`
+        const url = `https://pacific-falls-37798.herokuapp.com/whitelist`
         
         fetch(url, {
             method: "POST",
@@ -78,11 +78,25 @@ const { data:whishList, isLoading:as, refetch:asd } = useQuery("whishlistl", () 
                                 <span className='flex justify-center items-center h-full gap-x-4'>
 
                                       <label for="singleProductModal"> <span onClick={()=>setProductModal(pt)} className='hover-btn'><Icon icon={ic_add_shopping_cart} size={20}></Icon></span></label>
+                                  
+        
                                     
-                                    { whishList?.find(wn=>wn.name===pt.name, asd())  ? <span className='hover-btn red-white'><Icon icon={heart} size={20}></Icon></span>
-                                        
-                                        : <span onClick={() => handleWhiteList(pt)} className='hover-btn'><Icon icon={heartO} size={20}></Icon></span>}
-                                   
+                                       {whishList?.find((wn) => wn?.name === pt.name,asd()) ? (
+                        <span onClick={() => handleWhiteList(pt)} className="hover-btn red-white">
+                          <Icon icon={heart} size={20}></Icon>
+                        </span>
+                      ) : (
+                          <>
+                          {user?  <span onClick={() => handleWhiteList(pt)} className="hover-btn">
+                            
+                          <Icon icon={heartO} size={20}></Icon>
+                            </span> :
+                              <span onClick={() => alert("Login Fast")} className="hover-btn">
+                            
+                          <Icon icon={heartO} size={20}></Icon>
+                        </span>}
+                          </>
+                      )}
 
 
                                         <label for="singleProductModal"> <span onClick={()=>setProductModal(pt)} className='hover-btn'><Icon icon={searchPlus} size={20}></Icon></span></label>
